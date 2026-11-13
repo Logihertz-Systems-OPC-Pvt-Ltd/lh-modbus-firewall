@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test (Go ${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.22", "1.23"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: false
+
+      - name: Verify Code Formatting (gofmt)
+        run: |
+          UNFORMATTED=$(gofmt -s -l .)
+          if [ -n "$UNFORMATTED" ]; then
+            echo "The following files require gofmt -s -w formatting:"
+            echo "$UNFORMATTED"
+            exit 1
+          fi
+
+      - name: Run Go Static Analysis (go vet)
+        run: go vet ./...
+
+      - name: Execute Test Suite with Race Detector
+        run: go test -v -race ./...
+
+      - name: Compile Production CLI Binary
+        run: |
+          mkdir -p bin
+          go build -v -ldflags="-s -w" -o bin/lh-modbus ./cmd/lh-modbus
+
+      - name: Verify CLI Version & Help
+        run: |
+          ./bin/lh-modbus --version
+          ./bin/lh-modbus --help
+
+      - name: Verify Modbus RTU CRC-16 Calculation
+        run: |
+          CRC_OUTPUT=$(./bin/lh-modbus crc16 01030000000A)
+          echo "$CRC_OUTPUT"
+          echo "$CRC_OUTPUT" | grep -q "0xCDC5"
+
+      - name: Verify Frame Deep Packet Inspection
+        run: |
+          ./bin/lh-modbus inspect-frame 00010000000601030064000A
+          ./bin/lh-modbus inspect-frame 01030000000AC5CD
+
+      - name: Verify Hardened Policy Audit (Expect Exit 0)
+        run: |
+          ./bin/lh-modbus scan --format=table fixtures/hardened_modbus_policy.json
+          ./bin/lh-modbus scan --format=json fixtures/hardened_modbus_policy.json
+          ./bin/lh-modbus scan --format=sarif fixtures/hardened_modbus_policy.json
+
+      - name: Verify Vulnerable Policy Audit Detection (Expect Exit 1)
+        run: |
+          set +e
+          ./bin/lh-modbus scan fixtures/vulnerable_modbus_policy.json
+          STATUS=$?
+          set -e
+          if [ $STATUS -ne 1 ]; then
+            echo "Expected exit code 1 for vulnerable policy, got $STATUS"
+            exit 1
+          fi
+
+      - name: Verify Packet Trace Evaluation & Anomaly Drops (Expect Exit 1)
+        run: |
+          set +e
+          ./bin/lh-modbus filter-trace fixtures/hardened_modbus_policy.json fixtures/sample_modbus_trace.json
+          STATUS=$?
+          set -e
+          if [ $STATUS -ne 1 ]; then
+            echo "Expected exit code 1 for dropped packets in trace, got $STATUS"
+            exit 1
+          fi

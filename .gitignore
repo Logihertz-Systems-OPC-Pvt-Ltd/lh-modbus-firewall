@@ -1,0 +1,22 @@
+# Binaries and executables
+/bin/
+/dist/
+/lh-modbus
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test artifacts and coverage
+*.out
+*.test
+coverage.html
+profile.out
+
+# IDE and OS files
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store

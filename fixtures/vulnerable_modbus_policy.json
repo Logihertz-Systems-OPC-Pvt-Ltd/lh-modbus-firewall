@@ -1,0 +1,23 @@
+{
+  "name": "Legacy Unrestricted Modbus Deployment (Default Vulnerable)",
+  "allow_unrestricted_writes": true,
+  "allowed_write_client_ips": [],
+  "block_diagnostic_and_proprietary_fcs": false,
+  "wan_port_502_exposed": true,
+  "require_tls_802_or_tunnel": false,
+  "strict_mbap_pdu_validation": false,
+  "enforce_register_address_bounds": false,
+  "enforce_setpoint_value_limits": false,
+  "block_unit_id_zero_broadcast": false,
+  "unit_id_allowlist_enabled": false,
+  "allowed_unit_ids": [],
+  "rate_limiting_enabled": false,
+  "max_requests_per_sec": 500,
+  "max_concurrent_tcp_sessions": 64,
+  "stateful_transaction_tracking": false,
+  "register_slew_rate_guard": false,
+  "log_exception_scans": false,
+  "ot_siem_audit_logging": false,
+  "allowed_function_codes": [],
+  "register_rules": []
+}

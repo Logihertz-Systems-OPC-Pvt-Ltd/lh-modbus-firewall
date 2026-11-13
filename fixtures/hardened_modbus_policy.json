@@ -1,0 +1,48 @@
+{
+  "name": "Hardened Substation OT Modbus Security Policy",
+  "allow_unrestricted_writes": false,
+  "allowed_write_client_ips": [
+    "192.168.10.15",
+    "192.168.10.20"
+  ],
+  "block_diagnostic_and_proprietary_fcs": true,
+  "wan_port_502_exposed": false,
+  "require_tls_802_or_tunnel": true,
+  "strict_mbap_pdu_validation": true,
+  "enforce_register_address_bounds": true,
+  "enforce_setpoint_value_limits": true,
+  "block_unit_id_zero_broadcast": true,
+  "unit_id_allowlist_enabled": true,
+  "allowed_unit_ids": [1, 2, 3],
+  "rate_limiting_enabled": true,
+  "max_requests_per_sec": 100,
+  "max_concurrent_tcp_sessions": 8,
+  "stateful_transaction_tracking": true,
+  "register_slew_rate_guard": true,
+  "log_exception_scans": true,
+  "ot_siem_audit_logging": true,
+  "allowed_function_codes": [1, 2, 3, 4, 5, 6, 15, 16],
+  "register_rules": [
+    {
+      "address": 100,
+      "name": "Coolant Pump VFD Speed (RPM)",
+      "read_only": false,
+      "min_value": 100,
+      "max_value": 1800,
+      "max_slew_rate": 200
+    },
+    {
+      "address": 101,
+      "name": "Emergency Isolation Valve Position (%)",
+      "read_only": false,
+      "min_value": 0,
+      "max_value": 100,
+      "max_slew_rate": 50
+    },
+    {
+      "address": 102,
+      "name": "Generator Turbine Speed Telemetry",
+      "read_only": true
+    }
+  ]
+}

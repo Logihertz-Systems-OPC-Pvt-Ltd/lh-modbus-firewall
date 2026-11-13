@@ -1,0 +1,62 @@
+[
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "00010000000601030064000A",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "0002000000060106006401F4",
+    "is_response": false
+  },
+  {
+    "client_ip": "10.0.0.99",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000300000006010600640226",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000400000003015A01",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000500000006010500011234",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000600000006010600641388",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "0007000000060106006603E8",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000800000006000600640200",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000900000006630300010001",
+    "is_response": false
+  },
+  {
+    "client_ip": "192.168.10.15",
+    "server_ip": "192.168.10.2",
+    "hex_data": "000A000000060106006404B0",
+    "is_response": false
+  }
+]
