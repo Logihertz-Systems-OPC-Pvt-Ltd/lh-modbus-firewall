@@ -1,0 +1,9 @@
+Package: lh-modbus-firewall
+Version: 0.1.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Sameer Tawade <ops@logihertz.com>
+Homepage: https://www.logihertz.com
+Description: lh-modbus - Modbus Industrial Register Slew-Rate Boundary Invariant
+ Zero-dependency Go industrial Modbus TCP Deep Packet Inspection (DPI) firewall dissecting 7-byte MBAP headers and PDUs, enforcing physical register setpoint/slew-rate bounds, RTU CRC-16, and OT/SCADA posture auditing.
